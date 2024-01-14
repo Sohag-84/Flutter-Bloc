@@ -16,12 +16,12 @@ class BlocIncDecrementPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () =>counterBloc.add(CounterIncremented()),
+            onPressed: () => counterBloc.add(CounterIncremented()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
-            onPressed: (){},// => counterCubit.decrement(),
+            onPressed: () => counterBloc.add(CounterDecremented()),
             tooltip: 'Decrement',
             child: const Icon(Icons.minimize),
           ),
