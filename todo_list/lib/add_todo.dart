@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/cubit/todo_cubit.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({super.key});
@@ -22,7 +24,13 @@ class _AddTodoState extends State<AddTodo> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                final todoCubit = BlocProvider.of<TodoCubit>(context);
+                if (todoTitleController.text.trim().isNotEmpty) {
+                  todoCubit.addTodo(title: todoTitleController.text);
+                  Navigator.of(context).pop();
+                }
+              },
               child: const Text("Add"),
             ),
           ],
