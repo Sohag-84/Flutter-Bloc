@@ -20,6 +20,12 @@ class TodoCubit extends Cubit<List<Todo>> {
     emit(deleteTodo);
   }
 
+  void updateTodo({required int index, required String title}) {
+    final updateTodoList = List<Todo>.from(state);
+    updateTodoList[index] = state[index].copyWith(name: title);
+    emit(updateTodoList);
+  }
+
   ///for check state changing status
   @override
   void onChange(Change<List<Todo>> change) {

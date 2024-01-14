@@ -23,9 +23,16 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             appBarTheme: const AppBarTheme(backgroundColor: Colors.blue)),
         initialRoute: "/",
-        routes: {
-          "/": (context) => const TodoList(),
-          "/add-todo": (context) => const AddTodo(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case "/":
+              return MaterialPageRoute(builder: (context) => const TodoList());
+
+            case "/add-todo":
+              return MaterialPageRoute(builder: (context) => const AddTodo());
+            default:
+              return null;
+          }
         },
       ),
     );

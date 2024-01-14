@@ -7,4 +7,14 @@ class Todo {
 
   @override
   String toString() => 'Todo(name: $name, createdAt: $createdAt)';
+
+  Todo copyWith({
+    String? name,
+    DateTime? createdAt,
+  }) {
+    return Todo(
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }
