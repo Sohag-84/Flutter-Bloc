@@ -15,6 +15,11 @@ class TodoCubit extends Cubit<List<Todo>> {
     emit([...state, todo]);
   }
 
+  void deleteTodo({required int index}) {
+    final deleteTodo = List<Todo>.from(state)..removeAt(index);
+    emit(deleteTodo);
+  }
+
   ///for check state changing status
   @override
   void onChange(Change<List<Todo>> change) {

@@ -38,6 +38,15 @@ class TodoList extends StatelessWidget {
                     return Card(
                       child: ListTile(
                         title: Text(todo.name),
+                        trailing: IconButton(
+                          onPressed: () {
+                            context.read<TodoCubit>().deleteTodo(index: index);
+                          },
+                          icon: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                     );
                   },
