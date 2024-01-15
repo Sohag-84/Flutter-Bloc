@@ -7,10 +7,11 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthLoginRequested>((event, emit) async {
-      final String email = event.email;
-      final String password = event.password;
+      emit(AuthLoading());
 
       try {
+        final String email = event.email;
+        final String password = event.password;
         if (!email.contains("@gmail.com")) {
           return emit(AuthFailure(errorMessage: "Enter valid email"));
         }

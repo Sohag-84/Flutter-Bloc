@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validation/bloc/auth_bloc.dart';
-import 'package:form_validation/login_screen.dart';
+import 'package:form_validation/views/login_screen.dart';
 
 import 'pallet.dart';
 
