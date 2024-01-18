@@ -1,5 +1,6 @@
 import 'package:add_to_cart/features/cart/page/cart_page.dart';
 import 'package:add_to_cart/features/home/bloc/home_bloc.dart';
+import 'package:add_to_cart/features/home/page/product_tile_widget.dart';
 import 'package:add_to_cart/features/wishlist/page/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
             );
 
           case HomeLoadedSuccessState:
+            final productModel = state as HomeLoadedSuccessState;
             return Scaffold(
               appBar: AppBar(
                 title: const Text("Grocery App"),
@@ -75,6 +77,13 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.shopping_bag_outlined),
                   ),
                 ],
+              ),
+              body: ListView.builder(
+                itemCount: productModel.productList.length,
+                itemBuilder: (context, index) {
+                  final item = productModel.productList[index];
+                  return ProductTileWidget(productDataModel: item);
+                },
               ),
             );
 
