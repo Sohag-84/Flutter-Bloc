@@ -13,6 +13,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(HomeInitialEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listenWhen: (previous, current) => current is HomeActionState,
@@ -36,28 +42,45 @@ class _HomePageState extends State<HomePage> {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Grocery App"),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context
-                      .read<HomeBloc>()
-                      .add(HomeWishlistButtonNavigateEvent());
-                },
-                icon: const Icon(Icons.favorite),
+        switch (state.runtimeType) {
+          case HomeLoadingState:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          case HomeErrorState:
+            return Scaffold(
+              body: Text((state as HomeErrorState).errorMsg.toString()),
+            );
+
+          case HomeLoadedSuccessState:
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Grocery App"),
+                centerTitle: true,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      context
+                          .read<HomeBloc>()
+                          .add(HomeWishlistButtonNavigateEvent());
+                    },
+                    icon: const Icon(Icons.favorite),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      context
+                          .read<HomeBloc>()
+                          .add(HomeCartButtonNavigateEvent());
+                    },
+                    icon: const Icon(Icons.shopping_bag_outlined),
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: () {
-                  context.read<HomeBloc>().add(HomeCartButtonNavigateEvent());
-                },
-                icon: const Icon(Icons.shopping_bag_outlined),
-              ),
-            ],
-          ),
-        );
+            );
+
+          default:
+            return const SizedBox();
+        }
       },
     );
   }

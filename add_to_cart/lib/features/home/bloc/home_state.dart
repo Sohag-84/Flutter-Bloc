@@ -9,9 +9,17 @@ final class HomeInitial extends HomeState {}
 
 final class HomeLoadingState extends HomeState {}
 
-final class HomeLoadedSuccessState extends HomeState {}
+final class HomeLoadedSuccessState extends HomeState {
+  final List<ProductDataModel> productList;
 
-final class HomeErrorState extends HomeState {}
+  HomeLoadedSuccessState({required this.productList});
+}
+
+final class HomeErrorState extends HomeState {
+  final String errorMsg;
+
+  HomeErrorState({required this.errorMsg});
+}
 
 final class NavigateToWishlistPageActionState extends HomeActionState {}
 
