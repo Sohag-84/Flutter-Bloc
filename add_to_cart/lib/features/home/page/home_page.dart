@@ -41,6 +41,21 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }
+
+        if (state is HomeProductWishlistedActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Added to wishlist"),
+            ),
+          );
+        }
+        if (state is HomeProductCartlistedActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Added to Cart"),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
