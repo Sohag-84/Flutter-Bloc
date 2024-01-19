@@ -1,3 +1,4 @@
+import 'package:add_to_cart/features/cart/bloc/cart_bloc.dart';
 import 'package:add_to_cart/features/home/bloc/home_bloc.dart';
 import 'package:add_to_cart/features/home/page/home_page.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>HomeBloc()),
+        BlocProvider(create: (context) => HomeBloc()),
+        BlocProvider(create: (context) => CartBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
