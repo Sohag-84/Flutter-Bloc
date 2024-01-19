@@ -34,41 +34,57 @@ class _CartPageState extends State<CartPage> {
 
             case CartSuccessState:
               final cartItem = state as CartSuccessState;
-              return ListView.builder(
-                itemCount: cartItem.cartProductList.length,
-                itemBuilder: (context, index) {
-                  final item = cartItem.cartProductList[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: ListTile(
-                        leading: ClipRRect(
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              item.imageUrl,
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          item.name,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text("\$${item.price}"),
-                        trailing: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_forever,
-                            color: Colors.red,
-                          ),
+              return cartItem.cartProductList.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No item found!",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
+                    )
+                  : ListView.builder(
+                      itemCount: cartItem.cartProductList.length,
+                      itemBuilder: (context, index) {
+                        final item = cartItem.cartProductList[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            child: ListTile(
+                              leading: ClipRRect(
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    item.imageUrl,
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                item.name,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text("\$${item.price}"),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  context.read<CartBloc>().add(
+                                        CartRemovedFromCartList(
+                                          productDataModel: item,
+                                        ),
+                                      );
+                                },
+                                icon: const Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
             default:
               return const SizedBox();
           }
