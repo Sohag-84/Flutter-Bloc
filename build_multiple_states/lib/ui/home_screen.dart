@@ -51,18 +51,30 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 15),
-            Container(
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.red.withOpacity(.5),
-                borderRadius: BorderRadius.circular(8),
-              ),
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(state.sliderValue),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Slider(
+                      value: state.sliderValue,
+                      onChanged: (double value) {
+                        context
+                            .read<SwitchBloc>()
+                            .add(SliderEvent(sliderValue: value));
+                      },
+                    )
+                  ],
+                );
+              },
             ),
-            const SizedBox(height: 8),
-            Slider(
-              value: 0.5,
-              onChanged: (double value) {},
-            )
           ],
         ),
       ),
