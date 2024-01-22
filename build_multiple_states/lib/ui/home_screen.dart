@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             BlocBuilder<SwitchBloc, SwitchState>(
+              buildWhen: (previous, current) =>
+                  previous.isEnable != current.isEnable,
               builder: (context, state) {
                 return Row(
                   children: [
@@ -52,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 15),
             BlocBuilder<SwitchBloc, SwitchState>(
+              buildWhen: (previous, current) =>
+                  previous.sliderValue != current.sliderValue,
               builder: (context, state) {
                 return Column(
                   children: [
