@@ -1,4 +1,9 @@
+import 'package:build_multiple_states/bloc/switch_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/switch_bloc.dart';
+import '../bloc/switch_states.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,21 +26,29 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                const Text(
-                  "Notification",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const Spacer(),
-                Switch(
-                  value: false,
-                  onChanged: (value) {},
-                ),
-              ],
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    const Text(
+                      "Notification",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const Spacer(),
+                    Switch(
+                      value: state.isEnable,
+                      onChanged: (value) {
+                        context
+                            .read<SwitchBloc>()
+                            .add(EnableDisableNotificationEvent());
+                      },
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 15),
             Container(
