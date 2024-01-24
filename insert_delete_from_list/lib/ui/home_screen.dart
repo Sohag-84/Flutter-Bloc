@@ -35,7 +35,13 @@ class HomeScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(state.todoList[index].toString()),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<TodoBloc>().add(
+                            DeleteTodoEvent(
+                              task: state.todoList[index],
+                            ),
+                          );
+                    },
                     icon: const Icon(Icons.delete),
                   ),
                 );
