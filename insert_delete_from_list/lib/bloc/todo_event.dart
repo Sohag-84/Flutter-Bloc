@@ -6,12 +6,16 @@ abstract class TodoEvent extends Equatable {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class AddTodoEvent extends Equatable {
+class AddTodoEvent extends TodoEvent {
+  final String task;
+
+   const AddTodoEvent({required this.task});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [task];
 }
 
-class DeleteTodo extends Equatable {
+class DeleteTodo extends TodoEvent {
   @override
   List<Object?> get props => [];
 }
