@@ -11,8 +11,9 @@ class CommentRepository {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      final body = jsonDecode(response.body) as List;
+
       if (response.statusCode == 200) {
+        final body = jsonDecode(response.body) as List;
         return body.map((e) {
           return CommentModel(
             postId: e['postId'],
