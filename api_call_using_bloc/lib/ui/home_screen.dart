@@ -1,9 +1,11 @@
-import 'package:api_call_using_bloc/bloc/comment_bloc.dart';
-import 'package:api_call_using_bloc/bloc/comment_events.dart';
-import 'package:api_call_using_bloc/bloc/comment_states.dart';
+import 'package:api_call_using_bloc/bloc/comment/comment_bloc.dart';
+import 'package:api_call_using_bloc/bloc/comment/comment_states.dart';
+import 'package:api_call_using_bloc/ui/user_screen.dart';
 import 'package:api_call_using_bloc/utils/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/comment/comment_events.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,12 +20,26 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     context.read<CommentBloc>().add(CommentFetchedEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Screen"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UserScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.person),
+          ),
+        ],
       ),
       body: BlocBuilder<CommentBloc, CommentStates>(
         builder: (context, state) {

@@ -1,7 +1,8 @@
-import 'package:api_call_using_bloc/bloc/comment_bloc.dart';
 import 'package:api_call_using_bloc/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/comment/comment_bloc.dart';
 
 void main() {
   runApp(const MyApp());

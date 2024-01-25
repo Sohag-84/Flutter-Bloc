@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:api_call_using_bloc/bloc/comment_events.dart';
-import 'package:api_call_using_bloc/bloc/comment_states.dart';
+import 'package:api_call_using_bloc/bloc/comment/comment_states.dart';
 import 'package:api_call_using_bloc/repository/comment_repository.dart';
 import 'package:api_call_using_bloc/utils/enum.dart';
 import 'package:bloc/bloc.dart';
+
+import 'comment_events.dart';
 
 class CommentBloc extends Bloc<CommentEvent, CommentStates> {
   CommentRepository commentRepository = CommentRepository();
