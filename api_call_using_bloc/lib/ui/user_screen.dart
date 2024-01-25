@@ -19,6 +19,10 @@ class _UserScreenState extends State<UserScreen> {
     context.read<UserBloc>().add(UserFetchedEvent());
   }
 
+   Future<void> _refresh() async {
+    context.read<UserBloc>().add(UserFetchedEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,16 +41,19 @@ class _UserScreenState extends State<UserScreen> {
             return Text(state.msg);
           }
           if (state is UserSuccessState) {
-            return ListView.builder(
-                itemCount: state.userList.length,
-                itemBuilder: (context, index) {
-                  final user = state.userList[index];
-                  return ListTile(
-                    leading: CircleAvatar(child: Text(user.id.toString())),
-                    title: Text(user.name.toString()),
-                    subtitle: Text(user.address?.city??"n/a"),
-                  );
-                });
+            return RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView.builder(
+                  itemCount: state.userList.length,
+                  itemBuilder: (context, index) {
+                    final user = state.userList[index];
+                    return ListTile(
+                      leading: CircleAvatar(child: Text(user.id.toString())),
+                      title: Text(user.name.toString()),
+                      subtitle: Text(user.address?.city ?? "n/a"),
+                    );
+                  }),
+            );
           } else {
             return const SizedBox();
           }
