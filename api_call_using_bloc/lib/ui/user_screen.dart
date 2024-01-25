@@ -3,6 +3,8 @@ import 'package:api_call_using_bloc/bloc/user/user_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/user/user_state.dart';
+
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
 
@@ -24,14 +26,32 @@ class _UserScreenState extends State<UserScreen> {
         title: const Text("User Screen"),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-        return const ListTile(
-          title: Text("IH Sohag"),
-          subtitle: Text("ihsohag@gmail.com"),
-        );
-      }),
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is UserLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is UserFailureState) {
+            return Text(state.msg);
+          }
+          if (state is UserSuccessState) {
+            return ListView.builder(
+                itemCount: state.userList.length,
+                itemBuilder: (context, index) {
+                  final user = state.userList[index];
+                  return ListTile(
+                    leading: CircleAvatar(child: Text(user.id.toString())),
+                    title: Text(user.name.toString()),
+                    subtitle: Text(user.address?.city??"n/a"),
+                  );
+                });
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
     );
   }
 }

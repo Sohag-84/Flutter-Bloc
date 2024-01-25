@@ -7,9 +7,9 @@ sealed class UserState {}
 final class UserInitialState extends UserState {}
 
 final class UserSuccessState extends UserState {
-  final UserModel userModel;
+  final List<UserModel> userList;
 
-  UserSuccessState({required this.userModel});
+  UserSuccessState({required this.userList});
 }
 
 final class UserLoadingState extends UserState {}

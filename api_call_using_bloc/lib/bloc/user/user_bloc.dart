@@ -17,8 +17,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoadingState());
     try {
-      final userData = await repository.fetchedUser();
-      emit(UserSuccessState(userModel: userData));
+      final userList = await repository.fetchedUser();
+      emit(UserSuccessState(userList: userList));
     } catch (e) {
       emit(UserFailureState(msg: e.toString()));
     }
