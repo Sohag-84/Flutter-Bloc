@@ -24,6 +24,9 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
+          bottomNavigationBar: BottomAppBar(
+            color: Colors.white,
+          ),
         );
       },
     );
