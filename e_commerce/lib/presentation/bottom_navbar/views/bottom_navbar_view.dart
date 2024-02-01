@@ -1,4 +1,5 @@
 import 'package:e_commerce/pallet/colors.dart';
+import 'package:e_commerce/presentation/category/views/category_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ class BottomNavbarView extends StatefulWidget {
 class _BottomNavbarViewState extends State<BottomNavbarView> {
   final List pages = const [
     Center(child: Text("Home View")),
-    Center(child: Text("Category View")),
+    CategoryView(),
     Center(child: Text("Search View")),
     Center(child: Text("Menu View")),
   ];
