@@ -3,7 +3,7 @@ part of 'bottom_nav_bloc.dart';
 @immutable
 sealed class BottomNavState {}
 
-final class BottomNavInitial extends BottomNavState {
+final class BottomNavInitialState extends BottomNavState {
   final int currentIndex;
-  BottomNavInitial({required this.currentIndex});
+  BottomNavInitialState({required this.currentIndex});
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/bottom_nav_bloc.dart';
 
 class BottomNavbarView extends StatefulWidget {
   const BottomNavbarView({super.key});
@@ -16,8 +19,13 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return BlocConsumer<BottomNavBloc, BottomNavState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(),
+        );
+      },
     );
   }
 }
