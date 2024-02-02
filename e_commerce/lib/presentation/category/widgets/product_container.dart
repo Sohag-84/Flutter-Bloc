@@ -28,6 +28,7 @@ Widget productContainer({
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Stack(
           alignment: Alignment.topRight,

@@ -1,7 +1,9 @@
-import 'package:e_commerce/data/repository/category_repository.dart';
+import 'package:e_commerce/config/app_config.dart';
 import 'package:e_commerce/pallet/colors.dart';
+import 'package:e_commerce/presentation/category/bloc/category_bloc.dart';
 import 'package:e_commerce/presentation/category/widgets/product_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/action_icon_widget.dart';
@@ -17,7 +19,7 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   void initState() {
     super.initState();
-    CategoryRepository().getCategoryProduct();
+    context.read<CategoryBloc>().add(CategoryProductFetchedEvent());
   }
 
   @override
@@ -44,30 +46,47 @@ class _CategoryViewState extends State<CategoryView> {
           SizedBox(width: 5.w),
         ],
       ),
-      body: GridView.builder(
-        itemCount: 10,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.w,
-          mainAxisSpacing: 10.h,
-          mainAxisExtent: 270.h,
-        ),
-        itemBuilder: (context, index) {
-          return productContainer(
-            isButtonClicked: false,
-            incrementTap: () {},
-            decrementTap: () {},
-            addToCartTap: () {},
-            cartItem: 12,
-            proImage: "https://t.ly/r-SWt",
-            proDiscountImage: "assets/images/discount.png",
-            proDiscount: "23",
-            plasticStatus: "Plastic Free",
-            proStock: 12,
-            proName: "Banana Plastic Free Plastic Free Plastic Free",
-            proWeight: "34",
-            proNewPrice: "23",
-            proOldPrice: "556",
+      body: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (context, state) {
+          if (state is CategoryProductFailureState) {
+            return Center(child: Text(state.errorMsg));
+          }
+          if (state is! CategoryProductSuccessState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return GridView.builder(
+            itemCount: state.productList.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8.w,
+              mainAxisSpacing: 10.h,
+              mainAxisExtent: 270.h,
+            ),
+            itemBuilder: (context, index) {
+              final data = state.productList[index];
+              return productContainer(
+                isButtonClicked: data.isBtnClicked,
+                incrementTap: () {},
+                decrementTap: () {},
+                addToCartTap: () {},
+                cartItem: 12,
+                proImage: "${AppConfig.imgBaseURL}${data.image}",
+                proDiscountImage: "assets/images/discount.png",
+                proDiscount: data.discountType == "percentage"
+                    ? "${data.discountAmount}% OFF"
+                    : data.discountType == "fixedAmount"
+                        ? "TAKA ${data.discountAmount} OFF"
+                        : null,
+                plasticStatus: "PLASTIC FREE",
+                proStock: data.quantity!,
+                proName: "${data.name}",
+                proWeight: "${data.weight} kg",
+                proNewPrice: "${data.price}",
+                proOldPrice: "150",
+              );
+            },
           );
         },
       ),

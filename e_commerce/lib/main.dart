@@ -1,5 +1,7 @@
+import 'package:e_commerce/data/repository/category_repository.dart';
 import 'package:e_commerce/presentation/bottom_navbar/bloc/bottom_nav_bloc.dart';
 import 'package:e_commerce/presentation/bottom_navbar/views/bottom_navbar_view.dart';
+import 'package:e_commerce/presentation/category/bloc/category_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +22,11 @@ class MyApp extends StatelessWidget {
           providers: [
             BlocProvider(
               create: (context) => BottomNavBloc(),
+            ),
+            BlocProvider(
+              create: (context) => CategoryBloc(
+                categoryRepository: CategoryRepository(),
+              ),
             ),
           ],
           child: MaterialApp(
