@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:e_commerce/pallet/colors.dart';
 import 'package:e_commerce/presentation/category/views/category_view.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bloc/bottom_nav_bloc.dart';
 import '../widgets/navbar_icon.dart';
-import 'package:badges/badges.dart' as badges;
 
 class BottomNavbarView extends StatefulWidget {
   const BottomNavbarView({super.key});
@@ -29,7 +29,6 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
       builder: (context, state) {
         if (state is BottomNavInitialState) {
           return Scaffold(
-            appBar: AppBar(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: InkWell(

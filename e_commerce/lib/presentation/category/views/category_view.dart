@@ -1,3 +1,4 @@
+import 'package:e_commerce/data/repository/category_repository.dart';
 import 'package:e_commerce/pallet/colors.dart';
 import 'package:e_commerce/presentation/category/widgets/product_container.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,12 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> {
+  @override
+  void initState() {
+    super.initState();
+    CategoryRepository().getCategoryProduct();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,11 +50,11 @@ class _CategoryViewState extends State<CategoryView> {
           crossAxisCount: 2,
           crossAxisSpacing: 8.w,
           mainAxisSpacing: 10.h,
-          mainAxisExtent: 280.h,
+          mainAxisExtent: 270.h,
         ),
         itemBuilder: (context, index) {
           return productContainer(
-            isButtonClicked: true,
+            isButtonClicked: false,
             incrementTap: () {},
             decrementTap: () {},
             addToCartTap: () {},
@@ -57,7 +64,7 @@ class _CategoryViewState extends State<CategoryView> {
             proDiscount: "23",
             plasticStatus: "Plastic Free",
             proStock: 12,
-            proName: "Banana",
+            proName: "Banana Plastic Free Plastic Free Plastic Free",
             proWeight: "34",
             proNewPrice: "23",
             proOldPrice: "556",
