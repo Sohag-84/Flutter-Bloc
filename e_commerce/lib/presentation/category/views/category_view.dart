@@ -22,6 +22,10 @@ class _CategoryViewState extends State<CategoryView> {
     context.read<CategoryBloc>().add(CategoryProductFetchedEvent());
   }
 
+  Future<void> _refresh() async {
+    context.read<CategoryBloc>().add(CategoryProductFetchedEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,37 +60,40 @@ class _CategoryViewState extends State<CategoryView> {
               child: CircularProgressIndicator(),
             );
           }
-          return GridView.builder(
-            itemCount: state.productList.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.w,
-              mainAxisSpacing: 10.h,
-              mainAxisExtent: 270.h,
+          return RefreshIndicator(
+            onRefresh: _refresh,
+            child: GridView.builder(
+              itemCount: state.productList.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.w,
+                mainAxisSpacing: 10.h,
+                mainAxisExtent: 270.h,
+              ),
+              itemBuilder: (context, index) {
+                final data = state.productList[index];
+                return productContainer(
+                  isButtonClicked: data.isBtnClicked,
+                  incrementTap: () {},
+                  decrementTap: () {},
+                  addToCartTap: () {},
+                  cartItem: 12,
+                  proImage: "${AppConfig.imgBaseURL}${data.image}",
+                  proDiscountImage: "assets/images/discount.png",
+                  proDiscount: data.discountType == "percentage"
+                      ? "${data.discountAmount}% OFF"
+                      : data.discountType == "fixedAmount"
+                          ? "TAKA ${data.discountAmount} OFF"
+                          : null,
+                  plasticStatus: "PLASTIC FREE",
+                  proStock: data.quantity!,
+                  proName: "${data.name}",
+                  proWeight: "${data.weight} kg",
+                  proNewPrice: "${data.price}",
+                  proOldPrice: "150",
+                );
+              },
             ),
-            itemBuilder: (context, index) {
-              final data = state.productList[index];
-              return productContainer(
-                isButtonClicked: data.isBtnClicked,
-                incrementTap: () {},
-                decrementTap: () {},
-                addToCartTap: () {},
-                cartItem: 12,
-                proImage: "${AppConfig.imgBaseURL}${data.image}",
-                proDiscountImage: "assets/images/discount.png",
-                proDiscount: data.discountType == "percentage"
-                    ? "${data.discountAmount}% OFF"
-                    : data.discountType == "fixedAmount"
-                        ? "TAKA ${data.discountAmount} OFF"
-                        : null,
-                plasticStatus: "PLASTIC FREE",
-                proStock: data.quantity!,
-                proName: "${data.name}",
-                proWeight: "${data.weight} kg",
-                proNewPrice: "${data.price}",
-                proOldPrice: "150",
-              );
-            },
           );
         },
       ),
