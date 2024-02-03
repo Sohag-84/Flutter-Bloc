@@ -9,6 +9,7 @@ part 'bottom_nav_state.dart';
 class BottomNavBloc extends Bloc<BottomNavEvent, BottomNavState> {
   BottomNavBloc() : super(BottomNavInitialState(currentIndex: 0)) {
     on<BottomNavPageIndexChangedEvent>(bottomNavPageIndexChangedEvent);
+    on<BottomNavCartPageNavigateEvent>(bottomNavCartPageNavigateEvent);
   }
 
   FutureOr<void> bottomNavPageIndexChangedEvent(
@@ -16,5 +17,12 @@ class BottomNavBloc extends Bloc<BottomNavEvent, BottomNavState> {
     Emitter<BottomNavState> emit,
   ) {
     emit(BottomNavInitialState(currentIndex: event.pageIndex));
+  }
+
+  FutureOr<void> bottomNavCartPageNavigateEvent(
+    BottomNavCartPageNavigateEvent event,
+    Emitter<BottomNavState> emit,
+  ) {
+    emit(BottomNavCartPageNavigateState());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:e_commerce/pallet/colors.dart';
+import 'package:e_commerce/presentation/cart/view/cart_view.dart';
 import 'package:e_commerce/presentation/category/views/category_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,14 +26,29 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BottomNavBloc, BottomNavState>(
-      listener: (context, state) {},
+      listenWhen: (previous, current) => current is BottomNavActionState,
+      buildWhen: (previous, current) => current is! BottomNavActionState,
+      listener: (context, state) {
+        if (state is BottomNavCartPageNavigateState) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CartView(),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is BottomNavInitialState) {
           return Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: InkWell(
-              onTap: () {},
+              onTap: () {
+                context
+                    .read<BottomNavBloc>()
+                    .add(BottomNavCartPageNavigateEvent());
+              },
               child: Container(
                 height: 75.h,
                 width: 75.w,
