@@ -19,11 +19,11 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryBloc>().add(CategoryProductFetchedEvent());
+    context.read<CategoryBloc>().add(CategoryProductFetchedEvent(id: ""));
   }
 
   Future<void> _refresh() async {
-    context.read<CategoryBloc>().add(CategoryProductFetchedEvent());
+    context.read<CategoryBloc>().add(CategoryProductFetchedEvent(id: ""));
   }
 
   @override
@@ -50,7 +50,20 @@ class _CategoryViewState extends State<CategoryView> {
           SizedBox(width: 5.w),
         ],
       ),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocConsumer<CategoryBloc, CategoryState>(
+        listenWhen: (previous, current) =>
+            current is CategoryProductActionState,
+        buildWhen: (previous, current) =>
+            current is! CategoryProductActionState,
+        listener: (context, state) {
+          if (state is CategoryProductCartListedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Added to cart"),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is CategoryProductFailureState) {
             return Center(child: Text(state.errorMsg));
@@ -76,8 +89,11 @@ class _CategoryViewState extends State<CategoryView> {
                   isButtonClicked: data.isBtnClicked,
                   incrementTap: () {},
                   decrementTap: () {},
-                  addToCartTap: () {},
-                  cartItem: 12,
+                  addToCartTap: () {
+                    context.read<CategoryBloc>().add(
+                        CategoryProductCartButtonClickedEvent(product: data));
+                  },
+                  cartItem: state.cartItem,
                   proImage: "${AppConfig.imgBaseURL}${data.image}",
                   proDiscountImage: "assets/images/discount.png",
                   proDiscount: data.discountType == "percentage"

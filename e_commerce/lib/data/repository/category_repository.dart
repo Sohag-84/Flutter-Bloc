@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class CategoryRepository {
   Future getCategoryProduct() async {
-    String url = "${AppConfig.baseURL}productGroup/products";
+    String url = "${AppConfig.baseURL}productGroup/products/appTestProducts";
 
     http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {

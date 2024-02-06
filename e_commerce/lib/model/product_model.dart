@@ -1,95 +1,98 @@
 class ProductModel {
   ProductModel({
-    required this.isDiscount,
-    required this.isBogo,
     required this.id,
-    required this.sku,
-    required this.name,
-    required this.description,
-    required this.shortDescription,
-    required this.isVisible,
-    required this.price,
-    required this.isPlastic,
-    required this.weight,
-    required this.quantity,
-    required this.category,
-    required this.image,
-    required this.updatedAt,
-    required this.plasticType,
-    required this.precedence,
-    required this.productWeight,
     required this.employee,
     required this.brand,
+    required this.category,
     required this.subcategory,
+    required this.name,
+    required this.sku,
+    required this.price,
+    required this.shortDescription,
+    required this.description,
+    required this.quantity,
+    required this.isVisible,
+    required this.isPlastic,
+    required this.image,
+    required this.isDiscount,
+    required this.isBogo,
     required this.discountedAmount,
+    required this.precedence,
+    required this.productWeight,
     required this.createdAt,
+    required this.updatedAt,
     required this.v,
+    required this.plasticType,
+    required this.weight,
     required this.discountType,
     required this.discountAmount,
     this.proQuantity = 1,
+    this.totalPrice,
     this.isBtnClicked = false,
   });
 
-  final bool? isDiscount;
-  final bool? isBogo;
   final String? id;
-  final int? sku;
-  final String? name;
-  final String? description;
-  final String? shortDescription;
-  final bool? isVisible;
-  final int? price;
-  final bool? isPlastic;
-  final int? weight;
-  final int? quantity;
-  final Category? category;
-  final String? image;
-  final DateTime? updatedAt;
-  final Brand? plasticType;
-  final int? precedence;
-  final String? productWeight;
   final String? employee;
   final Brand? brand;
+  final Category? category;
   final Category? subcategory;
+  final String? name;
+  final int? sku;
+  final dynamic price;
+  final String? shortDescription;
+  final String? description;
+  final int? quantity;
+  final bool? isVisible;
+  final bool? isPlastic;
+  final String? image;
+  final bool? isDiscount;
+  final bool? isBogo;
   final dynamic discountedAmount;
+  final int? precedence;
+  final String? productWeight;
   final DateTime? createdAt;
+  final DateTime? updatedAt;
   final int? v;
+  final Brand? plasticType;
+  final dynamic weight;
   final String? discountType;
-  final int? discountAmount;
-  int proQuantity = 1;
+  final dynamic discountAmount;
+  int proQuantity;
+  dynamic totalPrice;
   bool isBtnClicked;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      isDiscount: json["isDiscount"],
-      isBogo: json["isBogo"],
       id: json["_id"],
-      sku: json["sku"],
-      name: json["name"],
-      description: json["description"],
-      shortDescription: json["shortDescription"],
-      isVisible: json["isVisible"],
-      price: json["price"],
-      isPlastic: json["isPlastic"],
-      weight: json["weight"],
-      quantity: json["quantity"],
-      category:
-          json["category"] == null ? null : Category.fromJson(json["category"]),
-      image: json["image"],
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      plasticType: json["plasticType"] == null
-          ? null
-          : Brand.fromJson(json["plasticType"]),
-      precedence: json["precedence"],
-      productWeight: json["productWeight"],
       employee: json["employee"],
       brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
+      category:
+          json["category"] == null ? null : Category.fromJson(json["category"]),
       subcategory: json["subcategory"] == null
           ? null
           : Category.fromJson(json["subcategory"]),
+      name: json["name"],
+      sku: json["sku"],
+      price: json["price"],
+      totalPrice: json['price'],
+      shortDescription: json["shortDescription"],
+      description: json["description"],
+      quantity: json["quantity"],
+      isVisible: json["isVisible"],
+      isPlastic: json["isPlastic"],
+      image: json["image"],
+      isDiscount: json["isDiscount"],
+      isBogo: json["isBogo"],
       discountedAmount: json["discountedAmount"],
+      precedence: json["precedence"],
+      productWeight: json["productWeight"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],
+      plasticType: json["plasticType"] == null
+          ? null
+          : Brand.fromJson(json["plasticType"]),
+      weight: json["weight"],
       discountType: json["discountType"],
       discountAmount: json["discountAmount"],
     );
