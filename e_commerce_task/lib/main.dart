@@ -1,4 +1,6 @@
 import 'package:e_commerce_task/app_bloc_ovserver.dart';
+import 'package:e_commerce_task/pages/home/bloc/home_bloc.dart';
+import 'package:e_commerce_task/pages/home/pages/home_page.dart';
 import 'package:e_commerce_task/pages/login/bloc/login_bloc.dart';
 import 'package:e_commerce_task/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginBloc(),
+    String token = LocalPreferenceService.instance.getToken();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginBloc()),
+        BlocProvider(create: (context) => HomeBloc()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -27,7 +33,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home:  LoginPage(),
+        home: token.isEmpty ? LoginPage() : HomePage(),
       ),
     );
   }
