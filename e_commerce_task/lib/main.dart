@@ -1,4 +1,5 @@
 import 'package:e_commerce_task/app_bloc_ovserver.dart';
+import 'package:e_commerce_task/pages/cart/bloc/cart_bloc.dart';
 import 'package:e_commerce_task/pages/home/bloc/home_bloc.dart';
 import 'package:e_commerce_task/pages/home/pages/home_page.dart';
 import 'package:e_commerce_task/pages/login/bloc/login_bloc.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => HomeBloc()),
+        BlocProvider(create: (context) => CartBloc()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

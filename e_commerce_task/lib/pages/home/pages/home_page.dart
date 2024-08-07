@@ -1,5 +1,7 @@
 import 'package:e_commerce_task/common%20widgets/custom_button.dart';
 import 'package:e_commerce_task/data/local_preference.dart';
+import 'package:e_commerce_task/pages/cart/bloc/cart_bloc.dart';
+import 'package:e_commerce_task/pages/cart/page/cart_page.dart';
 import 'package:e_commerce_task/pages/home/bloc/home_bloc.dart';
 import 'package:e_commerce_task/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -63,35 +65,50 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 85.h,
-        padding: EdgeInsets.all(5.w),
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.r),
-            topRight: Radius.circular(15.r),
-          ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              "Total: \$10000",
-              style: TextStyle(
-                color: AppColors.whiteColor,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
+      bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          double totalPrice = 0;
+          if (state is CartUpdated) {
+            totalPrice = state.totalPrice;
+          }
+          return Container(
+            height: 85.h,
+            padding: EdgeInsets.all(5.w),
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.r),
+                topRight: Radius.circular(15.r),
               ),
             ),
-            Gap(5.h),
-            customButton(
-              onTap: () {},
-              color: Colors.orange,
-              height: 40,
-              title: "Order Now",
+            child: Column(
+              children: [
+                Text(
+                  "Total: \$${totalPrice.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Gap(5.h),
+                customButton(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CartPage(),
+                      ),
+                    );
+                  },
+                  color: Colors.orange,
+                  height: 40,
+                  title: "Order Now",
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       body: Padding(
         padding: EdgeInsets.all(10.w),
@@ -126,7 +143,11 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         final product = state.productList[index];
                         return productContainer(
-                          cartButtonTap: () {},
+                          cartButtonTap: () {
+                            context
+                                .read<CartBloc>()
+                                .add(AddToCart(product: product));
+                          },
                           image:
                               "https://cdn.pixabay.com/photo/2016/12/27/13/10/logo-1933884_640.png",
                           productName: product.name ?? "",
