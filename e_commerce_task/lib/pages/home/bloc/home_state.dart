@@ -16,3 +16,15 @@ final class LogoutFailure extends HomeState {
   final String error;
   LogoutFailure({required this.error});
 }
+
+final class FetchedProductLoading extends HomeState {}
+
+final class FetchedProductSuccess extends HomeState {
+  final List<ProductModel> productList;
+  FetchedProductSuccess({required this.productList});
+}
+
+final class FetchedProductFailure extends HomeState {
+  final String error;
+  FetchedProductFailure({required this.error});
+}

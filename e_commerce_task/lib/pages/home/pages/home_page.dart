@@ -10,8 +10,19 @@ import 'package:gap/gap.dart';
 
 import '../widgets/product_container.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(ProductFetched());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,22 +98,41 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Gap(20.h),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return productContainer(
-                    cartButtonTap: () {},
-                    image:
-                        "https://cdn.pixabay.com/photo/2016/12/27/13/10/logo-1933884_640.png",
-                    productName: "Soybean 2 Ltr",
-                    unitQuantity: "1Kg",
-                    stock: "1024.0",
-                    productPrice: "200.00",
+            BlocConsumer<HomeBloc, HomeState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is FetchedProductLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is FetchedProductSuccess) {
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.productList.length,
+                      itemBuilder: (context, index) {
+                        final product = state.productList[index];
+                        return productContainer(
+                          cartButtonTap: () {},
+                          image:
+                              "https://cdn.pixabay.com/photo/2016/12/27/13/10/logo-1933884_640.png",
+                          productName: product.name ?? "",
+                          unitQuantity:
+                              "${product.unitQty} ${product.unitName}",
+                          stock: product.stock ?? "",
+                          productPrice: product.price ?? "",
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                }
+                if (state is FetchedProductFailure) {
+                  return Center(
+                    child: Text(state.error.toString()),
+                  );
+                }
+
+                return Container();
+              },
             ),
           ],
         ),
