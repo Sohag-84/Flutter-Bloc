@@ -11,10 +11,13 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final repository = HomeRepository();
+  List<ProductModel> productList = [];
   HomeBloc() : super(HomeInitial()) {
     on<ProductFetched>(productFetched);
 
     on<LogoutButtonPressed>(logoutButtonPressed);
+
+    on<SearchProduct>(searchProduct);
   }
 
   Future<void> logoutButtonPressed(
@@ -31,13 +34,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> productFetched(ProductFetched event, Emitter<HomeState> emit) async{
+  Future<void> productFetched(
+    ProductFetched event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(FetchedProductLoading());
     try {
-      List<ProductModel> productList = await repository.getProduct();
+      productList = await repository.getProduct();
       emit(FetchedProductSuccess(productList: productList));
     } catch (e) {
       emit(FetchedProductFailure(error: e.toString()));
+    }
+  }
+
+  Future<void> searchProduct(
+      SearchProduct event, Emitter<HomeState> emit) async {
+    if (productList.isNotEmpty) {
+      final filteredProducts = productList.where((product) {
+        final productName = product.name?.toLowerCase() ?? '';
+        return productName.contains(event.query.toLowerCase());
+      }).toList();
+      emit(FetchedProductSuccess(productList: filteredProducts));
     }
   }
 }
