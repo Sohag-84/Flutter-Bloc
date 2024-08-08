@@ -17,6 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RemoveFromCart>(removeFromCart);
     on<IncreaseCartItemQuantity>(increaseCartItemQuantity);
     on<DecreaseCartItemQuantity>(decreaseCartItemQuantity);
+    on<ClearCart>(clearCart);
   }
 
   FutureOr<void> addToCart(
@@ -71,5 +72,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       cartItems[index].quantity = cartItems[index].quantity - 1;
       _updateCart(emit);
     }
+  }
+
+  FutureOr<void> clearCart(ClearCart event, Emitter<CartState> emit) {
+    cartItems.clear();
+    _updateCart(emit);
   }
 }

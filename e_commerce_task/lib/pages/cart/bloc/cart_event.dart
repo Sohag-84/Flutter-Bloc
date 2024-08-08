@@ -22,3 +22,5 @@ final class DecreaseCartItemQuantity extends CartEvent {
   final ProductModel product;
   DecreaseCartItemQuantity({required this.product});
 }
+
+final class ClearCart extends CartEvent{}
