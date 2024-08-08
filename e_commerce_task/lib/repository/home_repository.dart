@@ -9,11 +9,11 @@ import 'package:e_commerce_task/data/local_preference.dart';
 class HomeRepository {
   Future<String> logout({required String token}) async {
     http.Response response = await http.post(
-      Uri.parse("${AppConfig.baseURL}logout"),
+      Uri.parse("https://demo.limerickbd.com/backend/public/api/logout"),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer ${LocalPreferenceService.instance.getToken()}',
       },
     );
     log("Logout Response: ${response.body}");

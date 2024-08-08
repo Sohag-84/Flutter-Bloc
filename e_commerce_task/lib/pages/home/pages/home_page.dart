@@ -1,8 +1,8 @@
 import 'package:e_commerce_task/common%20widgets/custom_button.dart';
-import 'package:e_commerce_task/data/local_preference.dart';
 import 'package:e_commerce_task/pages/cart/bloc/cart_bloc.dart';
 import 'package:e_commerce_task/pages/cart/page/cart_page.dart';
 import 'package:e_commerce_task/pages/home/bloc/home_bloc.dart';
+import 'package:e_commerce_task/pages/login/login_page.dart';
 import 'package:e_commerce_task/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,14 +50,19 @@ class _HomePageState extends State<HomePage> {
             listener: (context, state) {
               if (state is LogoutSuccess) {
                 Fluttertoast.showToast(msg: state.message);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
               }
               if (state is LogoutFailure) {
                 Fluttertoast.showToast(msg: state.error);
               }
             },
             child: IconButton(
-              onPressed: () {
-                LocalPreferenceService.instance.removeToken();
+              onPressed: () async {
                 context.read<HomeBloc>().add(LogoutButtonPressed());
               },
               icon: const Icon(Icons.logout),
