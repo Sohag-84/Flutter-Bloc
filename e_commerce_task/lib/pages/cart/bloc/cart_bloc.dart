@@ -15,6 +15,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     on<AddToCart>(addToCart);
     on<RemoveFromCart>(removeFromCart);
+    on<IncreaseCartItemQuantity>(increaseCartItemQuantity);
+    on<DecreaseCartItemQuantity>(decreaseCartItemQuantity);
   }
 
   FutureOr<void> addToCart(
@@ -41,7 +43,33 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   void _updateCart(Emitter<CartState> emit) {
     double totalPrice = cartItems.fold(
-        0, (sum, item) => sum + (double.parse(item.price.toString())));
+        0,
+        (sum, item) =>
+            sum +
+            (double.parse(item.price.toString())) *
+                (double.parse(item.quantity.toString())));
     emit(CartUpdated(cartList: cartItems, totalPrice: totalPrice));
+  }
+
+  FutureOr<void> increaseCartItemQuantity(
+    IncreaseCartItemQuantity event,
+    Emitter<CartState> emit,
+  ) {
+    final index = cartItems.indexWhere((item) => item.id == event.product.id);
+    if (index != -1) {
+      cartItems[index].quantity = cartItems[index].quantity + 1;
+      _updateCart(emit);
+    }
+  }
+
+  FutureOr<void> decreaseCartItemQuantity(
+    DecreaseCartItemQuantity event,
+    Emitter<CartState> emit,
+  ) {
+    final index = cartItems.indexWhere((item) => item.id == event.product.id);
+    if (index != -1 && (cartItems[index].quantity) > 1) {
+      cartItems[index].quantity = cartItems[index].quantity - 1;
+      _updateCart(emit);
+    }
   }
 }

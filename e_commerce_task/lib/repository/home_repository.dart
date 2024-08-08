@@ -28,15 +28,12 @@ class HomeRepository {
   }
 
   Future<List<ProductModel>> getProduct() async {
-    final response = await http.get(
-        Uri.parse(
-            "${AppConfig.baseURL}fg-with-stock"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization':
-              'Bearer ${LocalPreferenceService.instance.getToken()}',
-        });
+    final response = await http
+        .get(Uri.parse("${AppConfig.baseURL}fg-with-stock"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${LocalPreferenceService.instance.getToken()}',
+    });
     if (response.statusCode == 200) {
       final List<dynamic> responseData = jsonDecode(response.body);
 

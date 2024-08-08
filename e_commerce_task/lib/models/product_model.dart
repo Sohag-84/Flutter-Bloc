@@ -31,6 +31,7 @@ class ProductModel {
     required this.unitQty,
     required this.categoryName,
     required this.stockQty,
+    this.quantity = 1,
   });
 
   final int? id;
@@ -64,6 +65,7 @@ class ProductModel {
   final String? unitQty;
   final String? categoryName;
   final String? stockQty;
+  int quantity;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
